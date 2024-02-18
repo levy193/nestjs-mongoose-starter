@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { BaseServiceAbstract } from '#common';
-import { UserDocument } from '#entities/vstore';
+import { UserDocument } from '#entities/main';
 import { UsersRepositoryInterface } from './interfaces';
 
 @Injectable()

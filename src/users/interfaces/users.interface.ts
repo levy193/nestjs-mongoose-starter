@@ -1,4 +1,4 @@
-import { UserDocument } from '#entities/vstore';
+import { UserDocument } from '#entities/main';
 import { BaseRepositoryInterface } from '#repositories';
 
 export interface UsersRepositoryInterface extends BaseRepositoryInterface<UserDocument> {

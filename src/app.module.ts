@@ -41,9 +41,9 @@ import { AccountsModule } from './accounts/accounts.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('db.mongo.vstoreURL'),
+        uri: configService.get('db.mongo.mainURL'),
       }),
-      connectionName: 'vstore',
+      connectionName: 'main',
     }),
     // Routers
     RoutersModule,

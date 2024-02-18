@@ -1,5 +1,5 @@
 import { UsersService } from '#/users';
-import { UserDocument } from '#entities/vstore';
+import { UserDocument } from '#entities/main';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -7,7 +7,7 @@ export declare global {
       NODE_ENV: 'development' | 'production' | 'test';
       PORT: string;
       JWT_SECRET: string;
-      MONGO_VSTORE: string;
+      MONGO_MAIN_URL: string;
     }
   }
 

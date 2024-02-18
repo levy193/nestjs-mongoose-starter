@@ -1,7 +1,7 @@
 export const config = {
   db: {
     mongo: {
-      vstoreURL: '',
+      mainURL: '',
     },
   },
   auth: {

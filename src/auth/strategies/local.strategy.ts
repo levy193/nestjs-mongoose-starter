@@ -4,14 +4,10 @@ import { Strategy } from 'passport-local';
 
 import type { Payload } from '../auth.interface';
 import { AuthService } from '../auth.service';
-import { UsersService } from '#/users';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private authService: AuthService,
-    private usersService: UsersService,
-  ) {
+  constructor(private authService: AuthService) {
     super();
   }
 

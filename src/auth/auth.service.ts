@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 
 import type { JwtPayload, JwtSign, Payload } from './auth.interface';
 import { UsersService } from '../users';
-import { User } from '#entities/vstore';
+import { User } from '#entities/main';
 import { AuthConfig } from './auth.config';
 
 @Injectable()
@@ -19,10 +19,10 @@ export class AuthService {
   public async validateUser(username: string, password: string): Promise<Partial<User> | null> {
     const user = await this.usersService.findOneForAuth({ username });
 
-    const isMatch = await bcrypt.compare(password, user?.passwordHash);
+    const isMatch = await bcrypt.compare(password, user?.password);
     if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { passwordHash, ...result } = user.toObject();
+      const { password, ...result } = user.toObject();
       return result;
     }
 
@@ -35,8 +35,7 @@ export class AuthService {
     const user = await this.usersService.update(
       { username },
       {
-        passwordHash: hash,
-        passwordSalt: salt,
+        password: hash,
       },
       {
         upsert: false,

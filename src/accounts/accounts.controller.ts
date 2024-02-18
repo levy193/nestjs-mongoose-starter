@@ -3,7 +3,7 @@ import { Controller, Get, UseInterceptors } from '@nestjs/common';
 import { AccountsService } from './accounts.service';
 import { Payload } from '#/auth';
 import { ReqUser } from '#common';
-import { User, UserDocument } from '#entities/vstore';
+import { User, UserDocument } from '#entities/main';
 import { MongooseClassSerializerInterceptor } from '#/common';
 
 @Controller()

@@ -1,7 +1,7 @@
 export const config = {
   db: {
     mongo: {
-      vstoreURL: process.env.MONGO_VSTORE,
+      mainURL: process.env.MONGO_MAIN_URL,
     },
   },
   auth: {

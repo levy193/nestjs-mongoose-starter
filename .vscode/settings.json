@@ -4,6 +4,5 @@
         "multistream",
         "pino",
         "virtuals",
-        "vstore"
     ]
 }

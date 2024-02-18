@@ -31,11 +31,7 @@ export class User extends BaseSchema {
 
   @Exclude()
   @Prop()
-  passwordHash: string;
-
-  @Exclude()
-  @Prop()
-  passwordSalt: string;
+  password: string;
 
   @Prop({ type: [String], enum: Object.values(ROLES), default: [ROLES.USER] })
   roles: string[];

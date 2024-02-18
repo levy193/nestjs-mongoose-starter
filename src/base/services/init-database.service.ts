@@ -25,7 +25,7 @@ export class InitDatabaseService implements OnModuleInit {
         await this.usersService.create({
           username: 'superadmin',
           fullName: 'Super Admin',
-          email: 'superadmin@vstore.gmail.com',
+          email: 'superadmin@gmail.com',
           roles: [ROLES.SUPER_ADMIN, ROLES.ADMIN, ROLES.USER],
         });
         await this.authService.setUserPassword('superadmin', '123456');
