@@ -10,6 +10,8 @@ export type UserDocument = HydratedDocument<User>;
 
 @Schema({
   strictQuery: true,
+  collection: 'users',
+  timestamps: true,
 })
 export class User extends BaseSchema {
   @Exclude()
@@ -43,6 +45,8 @@ export class User extends BaseSchema {
   point: number;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.plugin(paginate);
+
+export { UserSchema };

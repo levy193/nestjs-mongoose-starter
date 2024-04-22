@@ -1,17 +1,22 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
 import { loggerOptions, configuration } from 'src/config';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
-import { CommonModule, ExceptionsFilter } from '#common';
+import { CacheModule } from '@nestjs/cache-manager';
+import { RedisClientOptions } from 'redis';
+import { redisStore } from 'cache-manager-redis-yet';
+import { ConfigService } from '#common';
 
+import { ExceptionsFilter } from '#common';
+import { CommonModule } from '#common';
 import RoutersModule from './app.router';
-import { UsersModule } from '#/users';
-import { AuthModule } from '#/auth';
-import { BaseModule } from '#/base';
-import { JwtAuthGuard } from '#/auth/guards';
-import { AccountsModule } from './accounts/accounts.module';
+import { UsersModule } from '#modules/users';
+import { BaseModule } from '#modules/base';
+import { AuthModule, JwtAuthGuard } from '#auth';
+import { AccountsModule } from '#modules/accounts';
+import { CommandsModule } from '#commands';
 
 @Module({
   imports: [
@@ -31,7 +36,7 @@ import { AccountsModule } from './accounts/accounts.module';
       envFilePath:
         process.env.NODE_ENV === 'production'
           ? '.env'
-          : `.${process.env.NODE_ENV || 'development'}.env`,
+          : `.env.${process.env.NODE_ENV || 'development'}`,
     }),
     /**
      * Database
@@ -45,12 +50,41 @@ import { AccountsModule } from './accounts/accounts.module';
       }),
       connectionName: 'main',
     }),
+    /**
+     * Cache redis
+     * https://docs.nestjs.com/techniques/caching
+     */
+    CacheModule.registerAsync({
+      isGlobal: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const redisURL = configService.get('db.redis.cacheURL');
+        const parsedURL = new URL(redisURL);
+        return <RedisClientOptions>{
+          store: redisStore,
+          ttl: configService.get('cacheManager.ttl'),
+          host: parsedURL.hostname,
+          port: +parsedURL.port,
+          username: parsedURL.username ? decodeURIComponent(parsedURL.username) : undefined,
+          password: parsedURL.password ? decodeURIComponent(parsedURL.password) : undefined,
+          db: parsedURL.pathname.substring(1),
+          tls: parsedURL.protocol === 'rediss:',
+        };
+      },
+    }),
     // Routers
     RoutersModule,
+    /**
+     * Commands
+     * https://docs.nestjs.com/recipes/nest-commander
+     */
+    // CommandsModule,
     /**
      * Modules
      * https://docs.nestjs.com/modules
      */
+    CommandsModule,
     CommonModule,
     AuthModule,
     BaseModule,

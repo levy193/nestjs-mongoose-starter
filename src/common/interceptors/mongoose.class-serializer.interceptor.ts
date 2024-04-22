@@ -4,6 +4,7 @@ import { Document } from 'mongoose';
 
 export function MongooseClassSerializerInterceptor(
   classToIntercept: Type,
+  isPaginateResponse = false,
 ): typeof ClassSerializerInterceptor {
   return class Interceptor extends ClassSerializerInterceptor {
     private changePlainObjectToClass(document: PlainLiteralObject) {
@@ -15,6 +16,13 @@ export function MongooseClassSerializerInterceptor(
     }
 
     private prepareResponse(response: PlainLiteralObject | PlainLiteralObject[]) {
+      if (isPaginateResponse) {
+        return {
+          ...response,
+          items: response['items'].map(this.changePlainObjectToClass),
+        };
+      }
+
       if (Array.isArray(response)) {
         return response.map(this.changePlainObjectToClass);
       }

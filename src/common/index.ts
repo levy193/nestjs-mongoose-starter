@@ -6,5 +6,6 @@ export * from './interceptors';
 export * from './interfaces';
 export * from './middleware';
 export * from './providers';
+export * from './repositories';
 export * from './services';
 export * from './common.module';

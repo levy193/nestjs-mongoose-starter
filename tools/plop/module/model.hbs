@@ -1,0 +1,24 @@
+import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument, Types } from 'mongoose';
+import paginate from 'mongoose-paginate-v2';
+import { Exclude } from 'class-transformer';
+
+import { BaseSchema } from '../base';
+
+export type {{properCase model}}Document = HydratedDocument<{{properCase model}}>;
+
+@Schema({
+  strictQuery: true,
+  collection: '{{snakeCase model}}s',
+  timestamps: true,
+})
+export class {{properCase model}} extends BaseSchema {
+  @Exclude()
+  __v: any;
+}
+
+const {{properCase model}}Schema = SchemaFactory.createForClass({{properCase model}});
+
+{{properCase model}}Schema.plugin(paginate);
+
+export { {{properCase model}}Schema };

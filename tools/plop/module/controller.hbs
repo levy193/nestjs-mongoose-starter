@@ -1,0 +1,23 @@
+import { MongooseClassSerializerInterceptor } from '#common';
+import { {{properCase model}} } from '#entities/main';
+import { {{properCase module}}Service } from '../services';
+
+import { Controller, Get, UseInterceptors } from '@nestjs/common';
+
+@Controller()
+export class {{properCase module}}Controller {
+  constructor(private readonly {{module}}Service: {{properCase module}}Service) {}
+
+  @UseInterceptors(MongooseClassSerializerInterceptor({{properCase model}}, true))
+  @Get()
+  async findAllPublished() {
+    return this.{{module}}Service.findAll(
+      {
+        isPublished: true,
+      },
+      {
+        sort: 'sortOrder',
+      },
+    );
+  }
+}

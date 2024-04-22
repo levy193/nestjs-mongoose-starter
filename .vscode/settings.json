@@ -3,6 +3,7 @@
         "maxlength",
         "multistream",
         "pino",
-        "virtuals",
+        "plopfile",
+        "virtuals"
     ]
 }

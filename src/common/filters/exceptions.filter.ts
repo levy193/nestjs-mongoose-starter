@@ -21,6 +21,8 @@ export class ExceptionsFilter extends BaseExceptionFilter {
   }
 
   private getHttpStatus(exception: unknown): HttpStatus {
-    return exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
+    return exception instanceof HttpException
+      ? exception.getStatus()
+      : HttpStatus.INTERNAL_SERVER_ERROR;
   }
 }

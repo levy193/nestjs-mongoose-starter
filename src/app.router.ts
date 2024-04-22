@@ -1,7 +1,8 @@
 import { RouterModule } from '@nestjs/core';
-import { AuthModule } from '#/auth';
-import { UsersModule } from '#/users';
-import { AccountsModule } from '#/accounts/accounts.module';
+
+import { UsersModule } from '#modules/users';
+import { AccountsModule } from '#modules/accounts';
+import { BaseModule } from '#modules/base';
 
 /**
  * Routers
@@ -9,8 +10,8 @@ import { AccountsModule } from '#/accounts/accounts.module';
  */
 export default RouterModule.register([
   {
-    path: '/auth',
-    module: AuthModule,
+    path: '/',
+    module: BaseModule,
   },
   {
     path: '/accounts',

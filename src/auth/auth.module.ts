@@ -1,12 +1,12 @@
 import { Global, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 
 import { AuthSerializer } from './auth.serializer';
 import { AuthService } from './auth.service';
 import { LocalStrategy, JwtStrategy, JwtVerifyStrategy } from './strategies';
-import { UsersModule } from '../users';
-import { AuthController } from './auth.controller';
+import { UsersModule } from '#modules/users';
+import { AuthUtilService } from './utils';
+import { ConfigService } from '#common';
 
 @Global()
 @Module({
@@ -20,8 +20,14 @@ import { AuthController } from './auth.controller';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, AuthSerializer, LocalStrategy, JwtStrategy, JwtVerifyStrategy],
+  providers: [
+    AuthUtilService,
+    AuthService,
+    AuthSerializer,
+    LocalStrategy,
+    JwtStrategy,
+    JwtVerifyStrategy,
+  ],
   exports: [AuthService],
-  controllers: [AuthController],
 })
 export class AuthModule {}

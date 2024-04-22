@@ -1,0 +1,15 @@
+import { Inject, Injectable } from '@nestjs/common';
+
+import { BaseServiceAbstract } from '#common';
+import { {{properCase model}}Document } from '#entities/main';
+import { {{properCase module}}RepositoryInterface } from './repositories';
+
+@Injectable()
+export class {{properCase module}}Service extends BaseServiceAbstract<{{properCase model}}Document> {
+  constructor(
+    @Inject('{{properCase module}}RepositoryInterface')
+    private readonly {{module}}Repository: {{properCase module}}RepositoryInterface,
+  ) {
+    super({{module}}Repository);
+  }
+}

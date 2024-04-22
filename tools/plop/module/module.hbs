@@ -1,0 +1,27 @@
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+
+import { {{properCase model}}, {{properCase model}}Schema } from '#entities/main';
+import { {{properCase module}}Repository } from './repositories';
+import * as controllers from './controllers';
+import * as services from './services';
+
+@Module({
+  imports: [
+    MongooseModule.forFeature(
+      [
+        { name: {{properCase model}}.name, schema: {{properCase model}}Schema },
+      ],
+      'main',
+    ),
+  ],
+  providers: [
+    {
+      provide: '{{properCase module}}RepositoryInterface',
+      useClass: {{properCase module}}Repository,
+    },
+    ...Object.values(services),
+  ],
+  controllers: Object.values(controllers),
+})
+export class {{properCase module}}Module {}

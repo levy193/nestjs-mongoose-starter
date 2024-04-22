@@ -12,6 +12,7 @@ export interface JwtPayload {
   sub: string;
   username: string;
   roles: string[];
+  sessionId: string;
 }
 
 export interface Payload {

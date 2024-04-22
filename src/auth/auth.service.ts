@@ -1,16 +1,22 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { nanoid } from 'nanoid';
+import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 
 import type { JwtPayload, JwtSign, Payload } from './auth.interface';
-import { UsersService } from '../users';
+import { UsersService } from '#modules/users';
 import { User } from '#entities/main';
 import { AuthConfig } from './auth.config';
+import { AuthUtilService } from './utils';
+import { ConfigService } from '#common';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
+    private readonly authUtilService: AuthUtilService,
     private jwtService: JwtService,
     private readonly usersService: UsersService,
     private readonly config: ConfigService,
@@ -57,8 +63,20 @@ export class AuthService {
     return data.userId && payload.sub === data.userId;
   }
 
-  public jwtSign(data: Payload): JwtSign {
-    const payload: JwtPayload = { sub: data.userId, username: data.username, roles: data.roles };
+  public async jwtSign(data: Payload): Promise<JwtSign> {
+    // Generate a random sessionId
+    const sessionId = nanoid(6);
+
+    // Create jwt payload
+    const payload: JwtPayload = {
+      sub: data.userId,
+      username: data.username,
+      roles: data.roles,
+      sessionId,
+    };
+
+    // Save sessionId to the cache manager
+    await this.cacheManager.set(this.authUtilService.getCacheSessionKey(data.userId), sessionId, 0);
 
     return {
       accessToken: this.jwtService.sign(payload),

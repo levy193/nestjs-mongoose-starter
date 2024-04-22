@@ -3,10 +3,12 @@
     "paths": {
       // https://docs.nestjs.com/cli/scripts#build
       // https://nodejs.org/api/packages.html#imports
+      "#auth": ["./src/auth"],
+      "#commands": ["./src/commands"],
       "#entities/*": ["src/entities/*"],
-      "#repositories": ["./src/repositories"],
       "#common": ["./src/common"],
-      "#/*": ["./src/*"]
+      "#modules/*": ["./src/modules/*"],
+      "#/*": ["./src/*"],
     },
     "module": "commonjs",
     "declaration": true,

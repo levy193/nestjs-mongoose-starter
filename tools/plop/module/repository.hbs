@@ -1,0 +1,21 @@
+import { PaginateModel, Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+
+import { {{properCase model}}, {{properCase model}}Document } from '#entities/main';
+import { BaseRepositoryAbstract, BaseRepositoryInterface } from '#common';
+
+export interface {{properCase module}}RepositoryInterface extends BaseRepositoryInterface<{{properCase model}}Document> {}
+
+export class {{properCase module}}Repository
+  extends BaseRepositoryAbstract<{{properCase model}}Document>
+  implements {{properCase module}}RepositoryInterface
+{
+  constructor(
+    @InjectModel({{properCase model}}.name, 'main')
+    private readonly {{model}}Model: Model<{{properCase model}}Document>,
+    @InjectModel({{properCase model}}.name, 'main')
+    private readonly {{model}}PaginateModel: PaginateModel<{{properCase model}}Document>,
+  ) {
+    super({{model}}Model, {{model}}PaginateModel);
+  }
+}
